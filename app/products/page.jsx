@@ -1,10 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import wands from "../api/products/db";
 
 const Products = async () => {
-  const products = await fetch("http://localhost:3000/api/products");
-  const wands = await products.json();
-
   return (
     <div className="w-full max-w-7xl mx-auto mt-4 mb-4 p-6 bg-gray-100 rounded-2xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
