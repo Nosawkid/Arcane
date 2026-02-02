@@ -1,11 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import wands from "../../api/products/db";
 
 const ProductSlug = async ({ params }) => {
+  // 2. Await params (Standard in Next.js 16)
   const { slug } = await params;
 
-  const response = await fetch(`http://localhost:3000/api/products/${slug}`);
-  const wand = await response.json();
+  // 3. Find the wand directly from the array instead of fetching
+  // Make sure your database objects actually have a 'slug' property!
+  const wand = wands.find((w) => w.slug === slug);
+
+  // 4. Handle invalid slugs (404)
+  if (!wand) {
+    notFound();
+  }
 
   const features = [
     { label: "Tier", value: wand.tier },
@@ -27,7 +37,7 @@ const ProductSlug = async ({ params }) => {
         </Link>
       </div>
 
-      {/* Image: Added object-cover to prevent stretching */}
+      {/* Image */}
       <div className="relative w-full overflow-hidden rounded-3xl bg-gray-100">
         <Image
           src={wand.image}
